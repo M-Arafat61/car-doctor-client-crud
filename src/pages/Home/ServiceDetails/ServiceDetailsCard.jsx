@@ -2,10 +2,11 @@ import { Link } from "react-router-dom";
 import thumb from "../../../assets/images/banner/2.jpg";
 import { BsPlayCircle } from "react-icons/bs";
 import { AiOutlineFilePdf } from "react-icons/ai";
+import logo from "../../../assets/logo.svg";
 
 const ServiceDetailsCard = ({ serviceDetails }) => {
   console.log(serviceDetails);
-  const { img, description, price, title, facility } = serviceDetails;
+  const { _id, img, description, price, title, facility } = serviceDetails;
   return (
     <div className='flex gap-5 mb-20'>
       <div className='w-3/4 space-y-5'>
@@ -72,13 +73,15 @@ const ServiceDetailsCard = ({ serviceDetails }) => {
         </div>
       </div>
       <div className='w-1/4'>
-        <div className='bg-black pt-10 pb-10 pl-2  pr-2 space-y-5'>
+        <div className='bg-black p-10 space-y-5'>
           <h2 className='text-white text-xl font-bold '>Download</h2>
-          <div className='flex items-center justify-start gap-2'>
-            <AiOutlineFilePdf className='text-2xl text-white' />
-            <div>
-              <h4 className='font-bold text-white'>Our Brochure</h4>
-              <p className='text-gray-300'>Download</p>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-3'>
+              <AiOutlineFilePdf className='text-2xl text-white' />
+              <div>
+                <h4 className='font-bold text-white'>Our Brochure</h4>
+                <p className='text-gray-300'>Download</p>
+              </div>
             </div>
             <div className='bg-color-main'>
               <Link className=' text-white'>
@@ -100,11 +103,13 @@ const ServiceDetailsCard = ({ serviceDetails }) => {
               </Link>
             </div>
           </div>
-          <div className='flex items-center justify-start gap-2'>
-            <AiOutlineFilePdf className='text-2xl text-white' />
-            <div>
-              <h4 className='font-bold text-white'>Company Details</h4>
-              <p className='text-gray-300'>Download</p>
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center  gap-3'>
+              <AiOutlineFilePdf className='text-2xl text-white' />
+              <div>
+                <h4 className='font-bold text-white'>Company Details</h4>
+                <p className='text-gray-300'>Download</p>
+              </div>
             </div>
             <div className='bg-color-main'>
               <Link className=' text-white'>
@@ -127,8 +132,27 @@ const ServiceDetailsCard = ({ serviceDetails }) => {
             </div>
           </div>
         </div>
+        <div className='bg-black text-white pt-10 pb-10  mt-10 mb-10 flex flex-col mx-auto items-center space-y-5'>
+          <img src={logo} alt='' />
+          <h2 className='font-bold text-center text-lg'>
+            Need Help? We Are Here <br /> To Help You
+          </h2>
+          <div className='bg-white text-black relative flex flex-col w-3/4 pt-14 pb-16 items-center justify-center'>
+            <h2 className='font-bold text-lg'>
+              <span className='text-color-main'>Car Doctor</span> Special
+            </h2>
+            <p>
+              Save up to
+              <span className='text-color-main font-bold'> 60% off</span>
+            </p>
+
+            <div className='absolute -bottom-5 bg-color-main p-2 rounded-lg text-white font-bold text-lg'>
+              <p>Get A Quote</p>
+            </div>
+          </div>
+        </div>
         <h4 className='text-3xl font-bold mb-3'>Price ${price}</h4>
-        <Link>
+        <Link to={`checkout/${_id}`}>
           <button className='w-full px-4 py-2  bg-gradient-to-r from-color-main to-color-main hover:from-pink-600 hover:to-yellow-500 text-white text-xl rounded-lg '>
             Proceed Checkout
           </button>
