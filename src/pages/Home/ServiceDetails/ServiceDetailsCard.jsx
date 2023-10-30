@@ -152,7 +152,7 @@ const ServiceDetailsCard = ({ serviceDetails }) => {
           </div>
         </div>
         <h4 className='text-3xl font-bold mb-3'>Price ${price}</h4>
-        <Link to={`checkout/${_id}`}>
+        <Link to={`/checkout/${_id}`}>
           <button className='w-full px-4 py-2  bg-gradient-to-r from-color-main to-color-main hover:from-pink-600 hover:to-yellow-500 text-white text-xl rounded-lg '>
             Proceed Checkout
           </button>

@@ -1,12 +1,43 @@
 import { useLoaderData } from "react-router-dom";
-import banner from "../../assets/images/banner/4.jpg";
+import banner from "../../assets/images/checkout/checkout.png";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
 
 const Checkout = () => {
   const serviceData = useLoaderData();
-  const { price, name, date, email, title } = serviceData;
+  const { _id, price, title, img } = serviceData;
   const { user } = useContext(AuthContext);
+
+  const handleOrderConfirmation = e => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const phone = form.phone.value;
+    const date = form.date.value;
+
+    const booking = {
+      customerName: name,
+      email,
+      img,
+      phone,
+      date,
+      service: title,
+      service_id: _id,
+      price: price,
+    };
+    console.log(booking);
+
+    axios
+      .post("http://localhost:5000/bookings", booking)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   console.log(serviceData);
   return (
@@ -19,8 +50,10 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <h2 className='text-center text-3xl'>Book Service - {title} </h2>
-      <form>
+      <h2 className='text-center text-3xl font-semibold text-color-main'>
+        Book Service - {title}
+      </h2>
+      <form onSubmit={handleOrderConfirmation}>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:p-10'>
           <div className='form-control'>
             <label className='label'>
@@ -31,13 +64,19 @@ const Checkout = () => {
               name='name'
               defaultValue={user?.displayName}
               className='input input-bordered'
+              placeholder='name'
             />
           </div>
           <div className='form-control'>
             <label className='label'>
               <span className='label-text'>Date</span>
             </label>
-            <input type='date' name='date' className='input input-bordered' />
+            <input
+              type='date'
+              name='date'
+              required
+              className='input input-bordered'
+            />
           </div>
           <div className='form-control'>
             <label className='label'>
@@ -48,6 +87,20 @@ const Checkout = () => {
               name='email'
               defaultValue={user?.email}
               placeholder='email'
+              className='input input-bordered'
+              readOnly
+            />
+          </div>
+          <div className='form-control'>
+            <label className='label'>
+              <span className='label-text'>Phone</span>
+            </label>
+
+            <input
+              type='number'
+              name='phone'
+              required
+              placeholder='phone'
               className='input input-bordered'
             />
           </div>

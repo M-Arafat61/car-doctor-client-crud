@@ -5,11 +5,15 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import ServiceDetails from "./pages/Home/ServiceDetails/ServiceDetails";
 import Checkout from "./pages/Checkout/Checkout";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
+import Bookings from "./pages/Bookings/Bookings";
+import PrivateRoute from "./PrivateRoutes/PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -22,10 +26,25 @@ const router = createBrowserRouter([
           fetch(`http://localhost:5000/service/${params.id}`),
       },
       {
-        path: "service/:id/checkout/:id",
-        element: <Checkout></Checkout>,
+        // path: "service/:id/checkout/:id",
+        path: "checkout/:id",
+        element: (
+          <PrivateRoute>
+            <Checkout></Checkout>
+          </PrivateRoute>
+        ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/service/${params.id}`),
+          fetch(`http://localhost:5000/checkout/${params.id}`),
+        // loader: ({ params }) =>
+        //   fetch(`http://localhost:5000/service/${params.id}`),
+      },
+      {
+        path: "bookings",
+        element: (
+          <PrivateRoute>
+            <Bookings></Bookings>
+          </PrivateRoute>
+        ),
       },
     ],
   },
