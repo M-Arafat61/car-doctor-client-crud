@@ -3,25 +3,27 @@ import login from "../../assets/images/login/login.svg";
 import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FiGithub } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import SecondNavbar from "../Shared/Navbar/SecondNavbar";
 
 const Login = () => {
   const { signIn } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleSignIn = e => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    // const user = { email, password };
     signIn(email, password)
       .then(res => {
         console.log(res.user);
+        navigate(location?.state || "/", { replace: true });
       })
       .catch(err => {
-        console.log(err.message);
+        console.log(err);
       });
   };
   return (

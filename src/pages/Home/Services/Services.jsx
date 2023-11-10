@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import ServicesCard from "./ServicesCard";
 import { Link } from "react-router-dom";
+import useAxiosInstance from "../../../hooks/useAxiosInstance";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+  const axiosInstance = useAxiosInstance();
 
   useEffect(() => {
-    fetch("http://localhost:5000/services")
-      .then(res => res.json())
-      .then(data => setServices(data));
-  }, []);
-  //   console.log(services);
+    axiosInstance
+      .get("/services")
+      .then(res => {
+        console.log(res.data);
+        setServices(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [axiosInstance]);
+
   return (
     <div className='space-y-5 my-10'>
       <div className='text-center space-y-5'>

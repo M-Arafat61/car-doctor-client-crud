@@ -2,12 +2,13 @@ import { useLoaderData } from "react-router-dom";
 import banner from "../../assets/images/checkout/checkout.png";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-import axios from "axios";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 const Checkout = () => {
   const serviceData = useLoaderData();
   const { _id, price, title, img } = serviceData;
   const { user } = useContext(AuthContext);
+  const axiosInstance = useAxiosInstance();
 
   const handleOrderConfirmation = e => {
     e.preventDefault();
@@ -29,8 +30,8 @@ const Checkout = () => {
     };
     console.log(booking);
 
-    axios
-      .post("http://localhost:5000/bookings", booking)
+    axiosInstance
+      .post("/bookings", booking)
       .then(res => {
         console.log(res);
       })
@@ -53,8 +54,8 @@ const Checkout = () => {
       <h2 className='text-center text-3xl font-semibold text-color-main'>
         Book Service - {title}
       </h2>
-      <form onSubmit={handleOrderConfirmation}>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 md:p-10'>
+      <form className='p-2 md:p-10' onSubmit={handleOrderConfirmation}>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-6 border-color-main rounded-3xl border p-2 md:p-10'>
           <div className='form-control'>
             <label className='label'>
               <span className='label-text'>Name</span>
@@ -115,16 +116,16 @@ const Checkout = () => {
               readOnly
             />
           </div>
-        </div>
-        <div className='form-control mt-6'>
-          <input
-            className='w-full btn px-4 py-2  bg-gradient-to-r from-color-main to-color-main text-white text-xl rounded-lg '
-            type='submit'
-            value='Order Confirm'
-          />
+
+          <div className='form-control col-span-2'>
+            <input
+              className='w-full btn px-4 py-2  bg-gradient-to-r from-color-main to-color-main text-white text-xl rounded-lg '
+              type='submit'
+              value='Order Confirm'
+            />
+          </div>
         </div>
       </form>
-      <div className='card-body'></div>
     </div>
   );
 };

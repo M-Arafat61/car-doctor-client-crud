@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
+import axios from "axios";
 
 export const AuthContext = createContext(null);
 
@@ -25,21 +26,43 @@ const AuthProvider = ({ children }) => {
   };
   // user sign out
   const logout = () => {
-    setLoading(true);
+    setLoading(false);
     return signOut(auth);
   };
 
   // current user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
+      const userEmail = currentUser?.email || user?.email;
+      const loggedUser = { email: userEmail };
+
       setUser(currentUser);
       console.log(currentUser);
+
       setLoading(false);
+      if (currentUser) {
+        axios
+          .post("http://localhost:5000/jwt", loggedUser, {
+            withCredentials: true,
+          })
+          .then(response => {
+            console.log(response.data);
+          });
+      } else {
+        axios
+          .post("http://localhost:5000/logout", loggedUser, {
+            withCredentials: true,
+          })
+          .then(res => {
+            console.log(res.data);
+          });
+      }
     });
+
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [user?.email]);
   const authInfo = {
     createUser,
     signIn,

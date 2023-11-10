@@ -4,16 +4,16 @@ import axios from "axios";
 import BookingRow from "./BookingRow";
 import cartImage from "../../assets/images/team/2.jpg";
 import Swal from "sweetalert2";
+import useAxiosInstance from "../../hooks/useAxiosInstance";
 
 const Bookings = () => {
   const { user } = useContext(AuthContext);
   const [bookings, setBookings] = useState([]);
-
-  const url = `http://localhost:5000/bookings?email=${user?.email}`;
+  const axiosInstance = useAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(url)
+    axiosInstance
+      .get(`/bookings?email=${user?.email}`, { withCredentials: true })
       .then(res => {
         // console.log(res.data);
         setBookings(res.data);
@@ -21,7 +21,7 @@ const Bookings = () => {
       .catch(error => {
         console.log(error);
       });
-  }, [url]);
+  }, [axiosInstance, user?.email]);
 
   const handleDelete = id => {
     Swal.fire({

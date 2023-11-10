@@ -1,5 +1,5 @@
 const BookingRow = ({ booking, handleDelete, handleBookingConfirm }) => {
-  console.log(booking);
+  // console.log(booking);
   const { _id, customerName, date, img, price, service, status } = booking;
 
   return (

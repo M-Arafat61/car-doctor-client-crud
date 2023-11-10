@@ -5,7 +5,7 @@ import { AiOutlineFilePdf } from "react-icons/ai";
 import logo from "../../../assets/logo.svg";
 
 const ServiceDetailsCard = ({ serviceDetails }) => {
-  console.log(serviceDetails);
+  // console.log(serviceDetails);
   const { _id, img, description, price, title, facility } = serviceDetails;
   return (
     <div className='flex gap-5 mb-20'>

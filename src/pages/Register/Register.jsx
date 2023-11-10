@@ -2,13 +2,16 @@ import { FaFacebookF } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { FiGithub } from "react-icons/fi";
 import login from "../../assets/images/login/login.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 import SecondNavbar from "../Shared/Navbar/SecondNavbar";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
+  const location = useLocation();
+  console.log(location);
+  const navigate = useNavigate();
   const handleSignUp = e => {
     e.preventDefault();
     const form = e.target;
@@ -20,6 +23,7 @@ const Register = () => {
     createUser(email, password)
       .then(res => {
         console.log(res.user);
+        navigate(location?.state || "/");
       })
       .catch(err => {
         console.log(err.message);
