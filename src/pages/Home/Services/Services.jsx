@@ -5,19 +5,28 @@ import useAxiosInstance from "../../../hooks/useAxiosInstance";
 
 const Services = () => {
   const [services, setServices] = useState([]);
+  const [asc, setAsc] = useState(true);
+  const [search, setSearch] = useState("");
   const axiosInstance = useAxiosInstance();
 
   useEffect(() => {
     axiosInstance
-      .get("/services")
+      .get(`/services?sort=${asc ? "asc" : "des"}&search=${search}`)
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setServices(res.data);
       })
       .catch(err => {
         console.log(err);
       });
-  }, [axiosInstance]);
+  }, [axiosInstance, asc, search]);
+
+  const handleSearch = e => {
+    e.preventDefault();
+    const searchText = e.target.search.value;
+    console.log(searchText);
+    setSearch(searchText);
+  };
 
   return (
     <div className='space-y-5 my-10'>
@@ -26,9 +35,32 @@ const Services = () => {
         <h2 className='text-5xl font-bold'>Our Service Area</h2>
         <p>
           The majority have suffered alteration in some form, by injected
-          humour, or randomised <br /> words which do not look even slightly
+          humour, or randomized <br /> words which do not look even slightly
           believable.
         </p>
+      </div>
+      <div>
+        <form
+          onSubmit={handleSearch}
+          className='items-center justify-center flex'
+        >
+          <input
+            type='text'
+            placeholder='Type here'
+            name='search'
+            className='input input-bordered w-full max-w-xs'
+          />
+          <input type='submit' value='Search' className='btn' />
+        </form>
+      </div>
+      <div className='flex justify-end items-center gap-3 pr-4 '>
+        <p className='text-lg font-medium'>Price:</p>
+        <button
+          onClick={() => setAsc(!asc)}
+          className='btn btn-outline  capitalize'
+        >
+          {asc ? "High To Low" : "Low to High"}
+        </button>
       </div>
       <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-5'>
         {services.map(service => (

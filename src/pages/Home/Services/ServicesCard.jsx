@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const ServicesCard = ({ service }) => {
   // console.log(service);
-  const { img, title, price, _id } = service;
+  const { img, title, price, _id } = service || {};
   return (
     <div className='relative flex flex-col mt-6 text-gray-700 bg-white shadow-md rounded-xl bg-clip-border'>
       <div className='p-6'>
